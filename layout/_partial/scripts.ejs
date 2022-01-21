@@ -30,13 +30,82 @@
     $(".highlight table").before(btn);
     var clip = new ClipboardJS('.btn-copy', {
       text: function(trigger) {
-        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+        return Array.from($(trigger.nextElementSibling.querySelectorAll('.code')).find('.line')).reduce((st, i) => st + i.innerText + '\n', '')
       }
     });
     clip.on('success', function(e) {
       e.trigger.setAttribute('aria-label', "<%= __('tooltip.copied') %>");
       e.clearSelection();
     })
+  })
+  </script>
+<% } %>
+
+<!-- hiding some code -->
+<% if (is_post()){ %>
+  <script type="text/javascript">
+  $(function() {
+    'use strict';
+
+    let lines = {};
+    // hiding-code HTML
+    let eye_btn = "<span class=\"btn-eye tooltipped tooltipped-sw\" aria-label=\"expand\">"
+                + '  <i class="far fa-eye"></i>';
+                + '</span>';
+    // mount the btn
+    $(".highlight.rust .btn-copy").before(eye_btn);
+
+    // build the lines to hide
+    const eyes = $('.btn-eye');
+    const tables = $('.btn-eye~table');
+
+    for (let i = 0; i < eyes.length; i++) {
+      const id = "eye-" + i;
+      eyes[i].id = id;
+      let tags = [];
+      const gutters = tables[i].querySelectorAll(".gutter .line");
+      const codes = tables[i].querySelectorAll(".code .line");
+
+      for (let j = 0; j < codes.length; j++) {
+        if (codes[j].firstChild && codes[j].firstChild.textContent.startsWith("# ")) {
+          codes[j].firstChild.textContent = codes[j].firstChild.textContent.replace("# ", "");
+          $(codes[j]).addClass("boring");
+          tags.push(codes[j]);
+          tags.push(codes[j].nextElementSibling);
+          if (gutters[j] !== undefined) {
+            tags.push(gutters[j]);
+            tags.push(gutters[j].nextElementSibling);
+          }
+        }
+      }
+
+      if (tags.length === 0) {
+        $("#" + id).remove();
+      } else {
+        lines[id] = tags;
+        $(tags).hide();
+      }
+    }
+    $('.code').addClass('show');
+
+    // handle click event
+    for ( let id in lines) {
+      const btn = $("#" + id);
+      const icon = btn.find("i");
+      btn.on("click", (e) => {
+        if (icon.hasClass("fa-eye-slash")) {
+          // hide lines
+          $(lines[id]).fadeOut();
+          btn.attr("aria-label", "expand");
+          icon.removeClass("fa-eye-slash");
+        } else {
+          // show lines
+          $(lines[id]).fadeIn();
+          btn.attr("aria-label", "fold");
+          icon.addClass("fa-eye-slash");
+        }
+      })
+    }
   })
   </script>
 <% } %>

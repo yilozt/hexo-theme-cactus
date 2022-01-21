@@ -194,6 +194,19 @@ code
     &:hover
       color: $color-accent-1
 
+  &:hover 
+    .btn-eye
+      opacity: 1
+
+  .btn-eye
+    font-size: 1.2rem
+    position: absolute
+    right: 50px
+    opacity: 0
+    transition: opacity 0.2s ease-in
+    &:hover
+      color: $color-accent-1
+
   pre
     margin: 0
     padding: 0
@@ -201,7 +214,7 @@ code
     background: none
 
   table
-    width: auto
+    width: auto  
 
   td.gutter
     text-align: right
@@ -209,3 +222,17 @@ code
 
   .line
     height: 22px
+
+  .code
+    opacity: 0
+    transition: opacity 0.2s ease-in
+
+  .show
+    opacity: 1
+
+  .boring
+    opacity: .6
+
+.mjx-chtml.MJXc-display
+  overflow-x: auto !important
+  overflow-y: hidden !important
