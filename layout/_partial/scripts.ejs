@@ -47,9 +47,9 @@
   $(function() {
     'use strict';
 
-    let lines = {};
+    const lines = {};
     // hiding-code HTML
-    let eye_btn = "<span class=\"btn-eye tooltipped tooltipped-sw\" aria-label=\"expand\">"
+    const eye_btn = "<span class=\"btn-eye tooltipped tooltipped-sw\" aria-label=\"expand\">"
                 + '  <i class="far fa-eye"></i>';
                 + '</span>';
     // mount the btn
@@ -59,31 +59,50 @@
     const eyes = $('.btn-eye');
     const tables = $('.btn-eye~table');
 
+    const match_codes = [];
+    const match_gutters = [];
+    const arrs = [match_codes, match_gutters];
+
+    const wrap_arrs = (spans) => {
+      // wraps lines in array into a span element
+      arrs.forEach(arr => {
+        if (arr.length > 0) {
+          $(arr).wrapAll("<span class='boring'></span>");
+          spans.push($(arr[0]).parent());
+          arr.length = 0;
+        }
+      });
+    };
+
     for (let i = 0; i < eyes.length; i++) {
       const id = "eye-" + i;
       eyes[i].id = id;
-      let tags = [];
+      const spans = [];
       const gutters = tables[i].querySelectorAll(".gutter .line");
       const codes = tables[i].querySelectorAll(".code .line");
 
       for (let j = 0; j < codes.length; j++) {
         if (codes[j].firstChild && codes[j].firstChild.textContent.startsWith("# ")) {
+          // push lines to hide into array
           codes[j].firstChild.textContent = codes[j].firstChild.textContent.replace("# ", "");
-          $(codes[j]).addClass("boring");
-          tags.push(codes[j]);
-          tags.push(codes[j].nextElementSibling);
+          match_codes.push(codes[j]);
+          match_codes.push(codes[j].nextElementSibling);
           if (gutters[j] !== undefined) {
-            tags.push(gutters[j]);
-            tags.push(gutters[j].nextElementSibling);
+            match_gutters.push(gutters[j]);
+            match_gutters.push(gutters[j].nextElementSibling);
           }
+        } else {
+          wrap_arrs(spans);
         }
       }
+      wrap_arrs(spans);
 
-      if (tags.length === 0) {
+      if (spans.length === 0) {
         $("#" + id).remove();
       } else {
-        lines[id] = tags;
-        $(tags).hide();
+        // add index
+        lines[id] = spans;
+        spans.forEach(t => t.hide());
       }
     }
     $('.code').addClass('show');
@@ -95,12 +114,12 @@
       btn.on("click", (e) => {
         if (icon.hasClass("fa-eye-slash")) {
           // hide lines
-          $(lines[id]).fadeOut();
+          lines[id].forEach(t => t.fadeOut());
           btn.attr("aria-label", "expand");
           icon.removeClass("fa-eye-slash");
         } else {
           // show lines
-          $(lines[id]).fadeIn();
+          lines[id].forEach(t => t.fadeIn());
           btn.attr("aria-label", "fold");
           icon.addClass("fa-eye-slash");
         }
