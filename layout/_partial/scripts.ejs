@@ -46,6 +46,7 @@
   <script type="text/javascript">
   $(function() {
     'use strict';
+    const langs = ['rust', 'glsl'].map(l => '.highlight.' + l + ' .btn-copy').join(',');
 
     const lines = {};
     // hiding-code HTML
@@ -53,7 +54,7 @@
                 + '  <i class="far fa-eye"></i>';
                 + '</span>';
     // mount the btn
-    $(".highlight.rust .btn-copy").before(eye_btn);
+    $(langs).before(eye_btn);
 
     // build the lines to hide
     const eyes = $('.btn-eye');
