@@ -48,7 +48,8 @@
     'use strict';
     const langs = ['rust', 'glsl'].map(l => '.highlight.' + l + ' .btn-copy').join(',');
 
-    const lines = {};
+    const lines_to_hide = {};
+
     // hiding-code HTML
     const eye_btn = "<span class=\"btn-eye tooltipped tooltipped-sw\" aria-label=\"expand\">"
                 + '  <i class="far fa-eye"></i>';
@@ -102,25 +103,25 @@
         $("#" + id).remove();
       } else {
         // add index
-        lines[id] = spans;
+        lines_to_hide[id] = spans;
         spans.forEach(t => t.hide());
       }
     }
     $('.code').addClass('show');
 
     // handle click event
-    for ( let id in lines) {
+    for ( let id in lines_to_hide) {
       const btn = $("#" + id);
       const icon = btn.find("i");
       btn.on("click", (e) => {
         if (icon.hasClass("fa-eye-slash")) {
           // hide lines
-          lines[id].forEach(t => t.fadeOut());
+          lines_to_hide[id].forEach(t => t.fadeOut());
           btn.attr("aria-label", "expand");
           icon.removeClass("fa-eye-slash");
         } else {
           // show lines
-          lines[id].forEach(t => t.fadeIn());
+          lines_to_hide[id].forEach(t => t.fadeIn());
           btn.attr("aria-label", "fold");
           icon.addClass("fa-eye-slash");
         }
@@ -235,3 +236,8 @@
       }());
   </script>
 <% } %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"
+integrity="sha512-zhHQR0/H5SEBL3Wn6yYSaTTZej12z0hVZKOv3TwCUXT1z5qeqGcXJLLrbERYRScEDDpYIJhPC1fk31gqR783iQ=="
+crossorigin="anonymous" defer></script>
