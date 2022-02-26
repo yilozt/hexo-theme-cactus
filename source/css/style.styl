@@ -237,5 +237,35 @@ code
   overflow-x: auto !important
   overflow-y: hidden !important
 
+// OpenGLsb7 demos configure
 canvas
   border-radius: 4px
+  width: 100%
+
+.demo_app details {
+  opacity: 0.4
+  font-style: italic
+  font-size: 0.7rem;
+}
+
+.demo_app input {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.demo_app details .apptitle {
+  cursor: pointer;
+  display: block;
+  max-width: fit-content;
+  background-image: linear-gradient(to left, transparent 0%, #000 0%, #000 100%, transparent 100%);
+  background-position: 50% 80%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  margin-bottom: 0.1rem;
+  transition: background 300ms ease;
+}
+
+.demo_app details[open] .apptitle {
+  background-size: 100% 1px;
+  background-position: 0% 80%;
+}
