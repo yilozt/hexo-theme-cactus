@@ -253,19 +253,26 @@ canvas
   height: 0.7rem;
 }
 
+.demo_app details {
+  text-align: right;
+  display: block;
+  max-width: fit-content;
+  margin: 0 0 0 auto;
+}
+
 .demo_app details .apptitle {
   cursor: pointer;
   display: block;
   max-width: fit-content;
+  margin: 0 0 0 auto;
   background-image: linear-gradient(to left, transparent 0%, #000 0%, #000 100%, transparent 100%);
-  background-position: 50% 80%;
+  background-position: 50% 100%;
   background-repeat: no-repeat;
   background-size: 0 1px;
-  margin-bottom: 0.1rem;
   transition: background 300ms ease;
 }
 
 .demo_app details[open] .apptitle {
   background-size: 100% 1px;
-  background-position: 0% 80%;
+  background-position: 0% 100%;
 }
