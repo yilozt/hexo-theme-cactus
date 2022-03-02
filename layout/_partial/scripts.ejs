@@ -13,6 +13,13 @@
   <% } %> 
 <% } %>
 
+<!-- scrollreveal -->
+<% if (isCdnEnable('scrollreveal')) {%> 
+  <%- getCdnScript('scrollreveal') %> 
+<% } else { %> 
+  <%- js('lib/scrollreveal/scrollreveal.min') %>
+<% } %>
+
 <!-- clipboard -->
 <% if (is_post()){ %>
   <% if (isCdnEnable('clipboard')) { %>
@@ -236,8 +243,3 @@
       }());
   </script>
 <% } %>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"
-integrity="sha512-zhHQR0/H5SEBL3Wn6yYSaTTZej12z0hVZKOv3TwCUXT1z5qeqGcXJLLrbERYRScEDDpYIJhPC1fk31gqR783iQ=="
-crossorigin="anonymous" defer></script>
